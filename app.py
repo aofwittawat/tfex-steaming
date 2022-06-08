@@ -31,7 +31,7 @@ def signals():
     
     symbol = str(signal["SYMBOL"])
     action = str(signal["ACTION"])
-    price = int(signal["PRICE"])
+    price = float(signal["PRICE"])
     amount = float(signal["AMOUNT"])
     password = str(signal["PASSWORD"])
 
