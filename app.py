@@ -15,7 +15,7 @@ def webhook():
     return "This is url for webhook!"
 # {
 #     "SYMBOL": "S50U22",
-#     "ACTION": "Long", // "Long Exit"
+#     "ACTION": "Long", // "Long Exit" // "Short" // "Short Exit"
 #     "PRICE" : "970",
 #     "AMOUNT" : "20",
 #     "PASSWORD":"272427"
@@ -28,7 +28,7 @@ def signals():
     signal = request.data.decode("utf-8")
     import json
     signal = json.loads(signal)  # เปลี่ยนจาก json ให้เป็น dictionary
-    
+
     symbol = str(signal["SYMBOL"])
     action = str(signal["ACTION"])
     price = float(signal["PRICE"])
@@ -38,28 +38,37 @@ def signals():
     if password != "272427":
         print("WRONG PASSWORD")
         return "403"
-    
+
+    if action == "Long":
+        price_c = price + 0.2
+    elif action == "Short":
+        price_c = price - 0.2
+    elif action == "Long Exit":
+        price_c = price - 0.5
+    elif action == "Short Exit":
+        price_c = price + 0.5
+
     print("ได้รับสัญญาณการซื้อขาย ดังนี้.....")
     print("symbol: " + str(symbol))
     print("action: " + str(action))
-    print("price: " + str(price))
+    print("price: " + str(price_c))
     print("amount: " + str(amount))
     print("บอทเริ่มทำคำสั่งซื้อขายอัตโนมัติ ไปที่ Steaming")
-    
+
     # ======================== Execute ==============================
-    
+
     investor = Investor(
-                    app_id=API_ID,                                
-                    app_secret=API_SECRET,
-                    broker_id="003",                                           
-                    app_code="ALGO",
-                    is_auto_queue = False)
+        app_id=API_ID,
+        app_secret=API_SECRET,
+        broker_id="003",
+        app_code="ALGO",
+        is_auto_queue=False)
 
     deri = investor.Derivatives(account_no="01520870")
     if action == "Long":
         OPEN_LONG = deri.place_order(
             symbol=symbol,
-            price=float(price),
+            price=float(price_c),
             volume=int(amount),
             side="LONG",
             position="OPEN",
@@ -67,7 +76,7 @@ def signals():
     elif action == "Long Exit":
         CLOSE_LONG = deri.place_order(
             symbol=symbol,
-            price=float(price),
+            price=float(price_c),
             volume=int(amount),
             side="LONG",
             position="CLOSE",
@@ -75,7 +84,7 @@ def signals():
     elif action == "Short":
         OPEN_SHORT = deri.place_order(
             symbol=symbol,
-            price=float(price),
+            price=float(price_c),
             volume=int(amount),
             side="SHORT",
             position="OPEN",
@@ -83,14 +92,12 @@ def signals():
     elif action == "Short Exit":
         CLOSE_SHORT = deri.place_order(
             symbol=symbol,
-            price=float(price),
+            price=float(price_c),
             volume=int(amount),
             side="SHORT",
             position="CLOSE",
             pin="272427")
-        
 
-    
     return "200"
 
 
