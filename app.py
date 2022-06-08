@@ -40,13 +40,13 @@ def signals():
         return "403"
 
     if action == "Long":
-        price_c = price + 0.2
+        price_c = round((price + 0.2), 1)
     elif action == "Short":
-        price_c = price - 0.2
+        price_c = round((price - 0.2), 1)
     elif action == "Long Exit":
-        price_c = price - 0.5
+        price_c = round((price - 0.5), 1)
     elif action == "Short Exit":
-        price_c = price + 0.5
+        price_c = round((price + 0.5), 1)
 
     print("ได้รับสัญญาณการซื้อขาย ดังนี้.....")
     print("symbol: " + str(symbol))
