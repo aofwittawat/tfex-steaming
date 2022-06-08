@@ -1,0 +1,7 @@
+{
+    "SYMBOL": "S50U22",
+    "ACTION": "Long", // "Long Exit"
+    "PRICE" : "970",
+    "AMOUNT" : "20",
+    "PASSWORD":"272427"
+}
