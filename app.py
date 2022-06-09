@@ -1,3 +1,4 @@
+from os import system
 from flask import Flask, request
 from settrade.openapi import Investor
 from config import *
@@ -18,7 +19,8 @@ def webhook():
 #     "ACTION": "Long", // "Long Exit" // "Short" // "Short Exit"
 #     "PRICE" : "970",
 #     "AMOUNT" : "20",
-#     "PASSWORD":"272427"
+#     "PASSWORD":"272427",
+#     "SYSTEM" :"xxxxx"
 # }
 
 
@@ -34,6 +36,7 @@ def signals():
     price = float(signal["PRICE"])
     amount = float(signal["AMOUNT"])
     password = str(signal["PASSWORD"])
+    system = str(signal["SYSTEM"])
 
     if password != "272427":
         print("WRONG PASSWORD")
@@ -54,6 +57,17 @@ def signals():
     print("price: " + str(price_c))
     print("amount: " + str(amount))
     print("บอทเริ่มทำคำสั่งซื้อขายอัตโนมัติ ไปที่ Steaming")
+
+    # ดึงค่า SL ออกจาก order
+# ======================================LINE NOTIFY==================================================
+    message = f"👇👇👇👇 \n🤖ได้รับสัญญาณการซื้อขาย ดังนี้..... \n🤖รูปแบบการเทรด {action} {symbol} \n🤖ด้วยระบบ {system}\n ที่ราคา {price}"
+    # Line notify Process
+    from line_notify import LineNotify
+    Access_Token = "MiUHQg2hMDPv81rSWcLPlMj9Fo47jqCxI71kaMdl0hU"  # generate line notify
+    notify = LineNotify(Access_Token)
+    notify.send(message)  # ส่งไปที่ห้องแชท
+
+# =====================================FUTURE EXCECUTE================================================
 
     # ======================== Execute ==============================
 
