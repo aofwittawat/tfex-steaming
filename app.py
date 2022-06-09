@@ -95,7 +95,7 @@ def signals():
             symbol=symbol,
             price=float(price_c),
             volume=int(amount),
-            side="LONG",
+            side="SHORT",
             position="CLOSE",
             pin="272427")
     elif action == "Short":
@@ -111,7 +111,7 @@ def signals():
             symbol=symbol,
             price=float(price_c),
             volume=int(amount),
-            side="SHORT",
+            side="LONG",
             position="CLOSE",
             pin="272427")
 
