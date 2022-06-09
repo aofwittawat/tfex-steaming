@@ -64,8 +64,11 @@ def signals():
     # Line notify Process
     from line_notify import LineNotify
     Access_Token = "MiUHQg2hMDPv81rSWcLPlMj9Fo47jqCxI71kaMdl0hU"  # generate line notify
+    Access_Token_2 = "gR3C9xC50xpKIJ52baAdi0myhhUTv8RENEoCe6J4gmy"  # generate line notify
     notify = LineNotify(Access_Token)
-    notify.send(message)  # ส่งไปที่ห้องแชท
+    notify_2 = LineNotify(Access_Token_2)
+    notify.send(message)  # ส่งไปที่ห้องแชท tfex_test ที่ tfex meeting
+    notify_2.send(message)  # ส่งไปที่ห้องแชท robot trade indy
 
 # =====================================FUTURE EXCECUTE================================================
 
