@@ -73,47 +73,49 @@ def signals():
 # =====================================FUTURE EXCECUTE================================================
 
     # ======================== Execute ==============================
-
-    investor = Investor(
-        app_id=API_ID,
-        app_secret=API_SECRET,
-        broker_id="003",
-        app_code="ALGO",
-        is_auto_queue=False)
-
-    deri = investor.Derivatives(account_no="01520870")
-    if action == "Long":
-        OPEN_LONG = deri.place_order(
-            symbol=symbol,
-            price=float(price_c),
-            volume=int(amount),
-            side="LONG",
-            position="OPEN",
-            pin="272427")
-    elif action == "Long Exit":
-        CLOSE_LONG = deri.place_order(
-            symbol=symbol,
-            price=float(price_c),
-            volume=int(amount),
-            side="SHORT",
-            position="CLOSE",
-            pin="272427")
-    elif action == "Short":
-        OPEN_SHORT = deri.place_order(
-            symbol=symbol,
-            price=float(price_c),
-            volume=int(amount),
-            side="SHORT",
-            position="OPEN",
-            pin="272427")
-    elif action == "Short Exit":
-        CLOSE_SHORT = deri.place_order(
-            symbol=symbol,
-            price=float(price_c),
-            volume=int(amount),
-            side="LONG",
-            position="CLOSE",
-            pin="272427")
+    for member in members:
+        try:
+            investor = Investor(
+                app_id=member[0],
+                app_secret=member[1],
+                broker_id="003",
+                app_code="ALGO",
+                is_auto_queue=False)
+            deri = investor.Derivatives(account_no=member[2])
+            if action == "Long":
+                OPEN_LONG = deri.place_order(
+                    symbol=symbol,
+                    price=float(price_c),
+                    volume=int(amount),
+                    side="LONG",
+                    position="OPEN",
+                    pin=member[3])
+            elif action == "Long Exit":
+                CLOSE_LONG = deri.place_order(
+                    symbol=symbol,
+                    price=float(price_c),
+                    volume=int(amount),
+                    side="SHORT",
+                    position="CLOSE",
+                    pin=member[3])
+            elif action == "Short":
+                OPEN_SHORT = deri.place_order(
+                    symbol=symbol,
+                    price=float(price_c),
+                    volume=int(amount),
+                    side="SHORT",
+                    position="OPEN",
+                    pin=member[3])
+            elif action == "Short Exit":
+                CLOSE_SHORT = deri.place_order(
+                    symbol=symbol,
+                    price=float(price_c),
+                    volume=int(amount),
+                    side="LONG",
+                    position="CLOSE",
+                    pin=member[3])
+        except Exception as e:
+            print(e)
 
     return "200"
 
